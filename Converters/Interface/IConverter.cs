@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Bot.CommonServices.Converters
 {
-    public interface IConverter<T>
+    public interface IConverter<TOriginal, T>
     {
-        public T Convert(object original);
+        public T Convert(TOriginal original);
     }
 }

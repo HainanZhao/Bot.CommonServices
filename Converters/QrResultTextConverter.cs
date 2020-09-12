@@ -1,13 +1,12 @@
-﻿using ZXing;
+﻿using Bot.CommonServices.CommonServices;
 
 namespace Bot.CommonServices.Converters
 {
-    public class QrResultTextConverter : IConverter<string>
+    public class QrResultTextConverter : IConverter<QrResult, string>
     {
-        public string Convert(object original)
-        {
-            var result = original as Result;
-            return result?.Text;
+        public string Convert(QrResult original)
+        {            
+            return original?.Text;
         }
     }
 }

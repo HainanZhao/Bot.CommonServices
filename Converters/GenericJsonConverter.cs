@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bot.CommonServices.Converters
 {
-    public class GenericJsonConverter : IConverter<string>
+    public class GenericJsonConverter : IConverter<object, string>
     {
         public string Convert(object original)
         {

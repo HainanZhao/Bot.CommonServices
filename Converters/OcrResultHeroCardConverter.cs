@@ -6,13 +6,12 @@ using System.Web;
 
 namespace Bot.CommonServices.Converters
 {
-    public class OcrResultHeroCardConverter : IConverter<HeroCard>
+    public class OcrResultHeroCardConverter : IConverter<OcrResult, HeroCard>
     {
-        public HeroCard Convert(object original)
+        public HeroCard Convert(OcrResult original)
         {
-            var result = original as OcrResult;
             var sb = new StringBuilder();
-            foreach (var region in result.Regions)
+            foreach (var region in original.Regions)
             {
                 foreach (var line in region.Lines)
                 {

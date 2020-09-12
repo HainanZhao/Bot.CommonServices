@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bot.CommonServices.Converters
 {
-    public class ImageAnalysisHeroCardConverter : IConverter<HeroCard>
+    public class ImageAnalysisHeroCardConverter : IConverter<ImageAnalysis, HeroCard>
     {
         private static string GetCelebertes(ImageAnalysis results)
         {
@@ -42,44 +42,43 @@ namespace Bot.CommonServices.Converters
         }
 
 
-        public HeroCard Convert(object original)
-        {
-            var results = original as ImageAnalysis;
+        public HeroCard Convert(ImageAnalysis original)
+        {            
             var sb = new StringBuilder();
 
-            var celebs = GetCelebertes(results);
+            var celebs = GetCelebertes(original);
             if (!string.IsNullOrWhiteSpace(celebs))
             {
                 sb.AppendLine("Celebrities: " + celebs);
             }
 
-            var landMarks = GetLandmarks(results);
+            var landMarks = GetLandmarks(original);
             if (!string.IsNullOrWhiteSpace(landMarks))
             {
                 sb.AppendLine("Landmarks: " + landMarks);
             }
 
             sb.Append("Tags:\t");
-            foreach (var tag in results.Tags)
+            foreach (var tag in original.Tags)
             {
                 sb.Append($"{tag.Name}, ");
             }
             sb.AppendLine();
 
-            if (results.Brands?.ToList().Count() > 0)
+            if (original.Brands?.ToList().Count() > 0)
             {
                 sb.Append("Brands:\t");
-                foreach (var tag in results.Brands)
+                foreach (var tag in original.Brands)
                 {
                     sb.Append($"{tag.Name}, ");
                 }
                 sb.AppendLine();
             }
 
-            if (results.Objects?.ToList().Count() > 0)
+            if (original.Objects?.ToList().Count() > 0)
             {
                 sb.Append("Objects:\t");
-                foreach (var obj in results.Objects)
+                foreach (var obj in original.Objects)
                 {
                     sb.Append($"{obj.ObjectProperty}, ");
                 }
@@ -88,7 +87,7 @@ namespace Bot.CommonServices.Converters
 
             var heroCard = new HeroCard
             {
-                Title = results.Description.Captions?.ToList().OrderByDescending(x => x.Confidence).FirstOrDefault()?.Text,
+                Title = original.Description.Captions?.ToList().OrderByDescending(x => x.Confidence).FirstOrDefault()?.Text,
                 Text = sb.ToString()
             };
 

@@ -13,6 +13,11 @@ namespace Bot.CommonServices
     public class AzureVisionService: IVisionService
     {
         private ComputerVisionClient _visionClient;
+
+        /// <summary>
+        /// Creates a Azure computer vision client. Make sure the "VisionServiceUrl" and "VisionSubscriptionKey" keys are in your configuration.
+        /// </summary>
+        /// <param name="configuration"></param>
         public AzureVisionService(IConfiguration configuration)
         {
             var endpoint = configuration["VisionServiceUrl"]?.ToString();
@@ -25,23 +30,19 @@ namespace Bot.CommonServices
             _visionClient = new ComputerVisionClient(new ApiKeyServiceClientCredentials(key)) { Endpoint = endpoint };
         }
 
-        public async Task<T> AnalyzeImageAsync<T>(string imageUrl, IConverter<T> beautifier)
+        public async Task<ImageAnalysis> AnalyzeImageAsync(string imageUrl, IList<VisualFeatureTypes> features)
+        {
+            var client = new WebClient();
+            using Stream stream = client.OpenRead(imageUrl);
+            return await _visionClient.AnalyzeImageInStreamAsync(stream, features);                
+
+        }
+
+        public async Task<T> AnalyzeImageAsync<T>(string imageUrl, IList<VisualFeatureTypes> features, IConverter<ImageAnalysis, T> beautifier)
         {
             try
             {
-                var visualFeatures = new List<VisualFeatureTypes>()
-                {
-                    VisualFeatureTypes.Categories,
-                    VisualFeatureTypes.Tags,
-                    VisualFeatureTypes.Description,
-                    VisualFeatureTypes.Faces,
-                    VisualFeatureTypes.Brands,
-                    VisualFeatureTypes.Objects
-                };
-                var client = new WebClient();
-                using Stream stream = client.OpenRead(imageUrl);
-                ImageAnalysis analysisResult = await _visionClient.AnalyzeImageInStreamAsync(stream, visualFeatures);
-
+                var analysisResult = await AnalyzeImageAsync(imageUrl, features);
                 return beautifier.Convert(analysisResult);                    
             }
             catch (Exception)
@@ -50,21 +51,28 @@ namespace Bot.CommonServices
             }           
         }
 
-        public async Task<T> ReadTextFromImageAsyc<T>(string imageUrl, IConverter<T> converter)
+        public async Task<OcrResult> ReadTextFromImageAsyc(string imageUrl)
+        {
+            OcrResult result = null;
+            if (new Uri(imageUrl).Host.ToLower() == "localhost")
+            {
+                var client = new WebClient();
+                using Stream stream = client.OpenRead(imageUrl);
+                result = await _visionClient.RecognizePrintedTextInStreamAsync(true, stream);
+            }
+            else
+            {
+                result = await _visionClient.RecognizePrintedTextAsync(true, imageUrl);
+            }
+
+            return result;
+        }
+
+        public async Task<T> ReadTextFromImageAsyc<T>(string imageUrl, IConverter<OcrResult, T> converter)
         {
             try
             {
-                OcrResult result = null;
-                if (new Uri(imageUrl).Host.ToLower() == "localhost")
-                {
-                    var client = new WebClient();
-                    using Stream stream = client.OpenRead(imageUrl);
-                    result = await _visionClient.RecognizePrintedTextInStreamAsync(true, stream);
-                }
-                else
-                {
-                    result = await _visionClient.RecognizePrintedTextAsync(true, imageUrl);
-                }
+                var result = await ReadTextFromImageAsyc(imageUrl);
                 return converter.Convert(result);
             }
             catch (Exception)
@@ -72,5 +80,6 @@ namespace Bot.CommonServices
                 return default;
             }
         }
+
     }
 }

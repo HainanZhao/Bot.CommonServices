@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Bot.CommonServices.Converters
 {    
-    public class OcrResultTextConverter : IConverter<string>
+    public class OcrResultTextConverter : IConverter<OcrResult, string>
     {
         public static string GetTextFromOcrResult(OcrResult result)
         {
@@ -22,10 +22,9 @@ namespace Bot.CommonServices.Converters
             }
             return sb.ToString();
         }
-        public string Convert(object original)
-        {
-            var result = original as OcrResult;
-            return GetTextFromOcrResult(result);
+        public string Convert(OcrResult original)
+        {            
+            return GetTextFromOcrResult(original);
         }
     }
 }
