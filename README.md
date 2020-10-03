@@ -9,10 +9,7 @@ I think we should build these common modules. The list is not based on prioritie
 
 - [x] Vision Service - Understand the image, detects objects/celebrities, read text from the image. I've build a service using microsofot vision API, you can help build more implemations by connecting to other APIs.
 - [x] QR Code - I've created two implementaitons of the QR decoders, it can decode a normal QR code or colored ones generated ColorZXing.Net RGB mode.
-- [ ] Weather Service. 
-- [ ] Dictionary Service.
-- [ ] News Service. 
-- [ ] Joke Service.
+- [ ] Other commonly used services
 
 ## Design
 ### Interface
