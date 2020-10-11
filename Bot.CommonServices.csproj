@@ -19,10 +19,12 @@
   <ItemGroup>
     <PackageReference Include="ColorZXing.Net" Version="0.1.2" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.ComputerVision" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.10.3" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.10.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.8" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder.AI.QnA\Microsoft.Bot.Builder.AI.QnA.csproj" />
   </ItemGroup>
 
 </Project>
