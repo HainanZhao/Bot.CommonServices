@@ -3,7 +3,7 @@ using ColorZXing;
 using System;
 using System.Threading.Tasks;
 
-namespace Bot.CommonServices.CommonServices
+namespace Bot.CommonServices
 {
     public class QrcodeService : IQrcodeService
     {

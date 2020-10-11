@@ -1,7 +1,5 @@
 ﻿using Bot.CommonServices.Converters;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

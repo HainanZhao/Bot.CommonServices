@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 	<LangVersion>8.0</LangVersion>
-	<Version>0.0.4</Version>
+	<Version>0.0.5</Version>
 	<Description>Some common services that can be sahred to build bots with Microsoft Bot Framework.</Description>
 	<Copyright>Hainan.Zhao</Copyright>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -11,14 +11,15 @@
 	<Company>Hainan.Zhao</Company>
 	<PackageProjectUrl>https://github.com/HainanZhao/Bot.CommonServices</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/HainanZhao/Bot.CommonServices</RepositoryUrl>
-	<AssemblyVersion>0.0.2.0</AssemblyVersion>
+	<AssemblyVersion>0.0.5.0</AssemblyVersion>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<PackageReleaseNotes>Added OcrResultMCTextConverter to extract the message from medical certificate.</PackageReleaseNotes>
+	<PackageReleaseNotes>Added MultiQnAMakerClient and MultiQnADialog to support multiple QnA Knowledgebases in one service</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="ColorZXing.Net" Version="0.1.2" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.ComputerVision" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.10.3" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.10.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.8" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
